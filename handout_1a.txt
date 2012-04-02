@@ -1,0 +1,106 @@
+CS 35L Software Construction Laboratory (Lab1-A)
+Mon, April 2, 2012
+
+Course Information:
+    Course Web: http://cs.ucla.edu/classes/spring12/cs35L/
+    Piazza:     http://piazza.com/class#spring2012/cs35l
+    Handouts & Sample Code:
+                https://github.com/goodcjw/CS35W12
+    Instructor in charge: Paul Eggert, Boelter 4532J.
+    Office hours: Mondays 13:00–14:00 and Wednesdays 9:50–10:50.
+    Instructor: Jiwen Cai (jwcai@cs.ucla.edu)
+    Tentative Office hours: Tuesdays   15:30-14:30 in Boelter 2432
+                            Wednesdays 16:30-17:30 in Boelter 2432
+    Prerequisite: CS 31
+
+What is CS35?
+
+    This course leads you to train yourself as a professional and efficient
+software engineer.
+    In this course, we will cover:
+    Basic linux commands, vim, emacs, man, shell scripting, python, make, 
+automake, version control (diff, git, svn), gdb, valgrind, and etc.
+
+Grading:
+    50% homework and in-class presentations
+    10 homework, each homework contains two parts: 1) Lab 2) Assignment
+       We will go through the lab in class and leave assignments to you.
+       The deadline of the 1st homework is April 6, 2012 (this Friday!!!).    
+    Lateness penalty: 1 day late: 1%, 2 days late: 2%, 3 days late: 4%, ...
+    You may discuss in form of study group, but no copying from others
+    Homework 10 is special.
+    http://cs.ucla.edu/classes/spring12/cs35L/assign/assign10.html
+
+    50% final exam
+    Final exam: Tuesday, June 12, 2012 11:30AM - 2:30PM
+
+Today's plan:
+    Introduction to several basic linux commands.
+    Learning Vim
+    Walking through part of Lab 1
+
+Wednesday's plan:
+    Introduction to file attributes
+    More Linux commands
+    Learning Emacs
+    Finishing Lab 1
+
+Unix and Linux:
+    Read wiki by yourslef:
+    http://en.wikipedia.org/wiki/Unix
+    http://en.wikipedia.org/wiki/Linux
+
+CLI (Command Line Interface) vs GUI (Graphic User Interface)
+    Steep learning curve
+    Speed with commands
+    Low resources usgae
+    Power of scripting
+    Convenient remote access
+
+Linux File System
+    Starts from root
+    Tree structured hierarchy
+    Command 1: ls -- list directory contents
+    Command 2: cd -- change directory
+    Command 3: pwd -- print name of current/working directory
+
+Helper Commands:
+    Command 4: man -- an interface to the on-line reference manuals 
+    Command 5: which -- locate a command
+    Command 6: whereis -- locate the binary, source, and manual page files
+for a command
+    Sometimes, just try [command] --help or [command] -h
+
+Command is CLI programs with arguments:
+    man, ls, cd, and etc are actually programs, i.e. executable binary files
+    $PATH environment variable tells the system where to find such programs
+    echo $PATH -- view the current path
+
+Vim Level 1: Survival
+    Command mode and Insert Mode
+    i     switch to insert mode before the current position
+    a     switch to insert mode after the current position (append)
+    I     jump to the first non-blank character in the current line and 
+switch to the insert mode
+    A     jump to the last character of the current line and switch to the 
+insert mode
+    x     delete one character
+    :wq   save and exit (:w save, :q exit)
+    :q!   exit without saving
+    hjkl  move cursor
+
+Vim Level 2: Feeling good
+    o     insert new line below the cursor
+    O     insert new line above the cursor
+    0     move to the begin of the line
+    ^     move to the first non-blank character in the line
+    $     move to the end of the line
+    g_    move to the last non-blacnk character in the line
+    /     search for pattern
+    dd    delete current line
+    p     paste 
+
+Vim Level 3 and more:
+    Please read: http://blog.interlinked.org/tutorials/vim_tutorial.html
+     
+Today's lab: #1 #2 #4 #6 #8 #9 #11 #14
