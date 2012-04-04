@@ -9,7 +9,7 @@ Course Information:
     Instructor in charge: Paul Eggert, Boelter 4532J.
     Office hours: Mondays 13:00–14:00 and Wednesdays 9:50–10:50.
     Instructor: Jiwen Cai (jwcai@cs.ucla.edu)
-    Tentative Office hours: Tuesdays   15:30-14:30 in Boelter 2432
+    Tentative Office hours: Tuesdays   15:30-16:30 in Boelter 2432
                             Wednesdays 16:30-17:30 in Boelter 2432
     Prerequisite: CS 31
 

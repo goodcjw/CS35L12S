@@ -1,0 +1,111 @@
+CS 35L Software Construction Laboratory (Lab1-B)
+Wed, April 4, 2012
+
+FAQ:
+   More about lnxsrv
+      http://www.seasnet.ucla.edu/UnixServers/lnxsrv
+
+   How can I install Linux into my own laptop?
+      Two opnitions: 1) Ask Linux working group for help
+                     2) Use VirtualBox
+                     (http://piazza.com/class#winter2012/cs35l/6)
+
+   How should I prepare lab1.log?
+       "record each action in a file lab1.log"
+       Such actions include: linux command you typed in CLI
+                             commands in man pages
+       You can also literally descripe what you did to figure out the answer,
+       as long as someone else who reads your log file can reproduce the
+       answer.
+
+PATH variable in Linux:
+    echo $PATH
+    -- Linux system will search for the directories listed in the PATH variable
+       to find the executable file to be called by the command.
+
+Linux file ownership:
+    Files and directories are owned by a user
+    Files and directories are assigned a group
+
+Linux file attributes (10 bits):
+    First bit: file type
+        -   normal file
+	d   directory
+	l   denotes a symbolic link
+    the rest 9 bits: "Three groups of three"
+        first   what the owner can do
+        second  what the group members can do
+        third   what other users can do
+    The triplet:
+        first   r: readable.
+        second  w: writable.
+        third   x: executable.
+    9 bits can be translated into a group of thre digitals
+        rwx rwx rwx -> 111 111 111 -> 777
+	rw- r-- r-- -> 110 100 100 -> 644
+    command: chmod -- change file mode bits
+        chmod 644 "filename"
+	chmod [''references''][''operator''][''modes''] ''filename''
+	references: u (owner), g (group), o (other), a (all)
+	operator:   +(add), -(remove), = (set)
+	modes:      r, w, x, s
+
+Useful Linux commands:
+    mkdir -- make directories
+    rmdir -- remove empty directories
+    cp -- copy files and directories
+    rm -- remove files or directories
+    mv -- move (rename) files
+    apropos -- search the whatis database for string
+    readlink -- print value of a symbolic link or canonical file name
+    find -- search for files in a directory hierarchy
+    locate -- find files by name
+    top -- display Linux tasks
+    ps -- report a snapshot of the current processes
+    kill -- send a signal to a process (The  default signal for kill is TERM)
+
+Learning Emacs:
+    "mode" in Emacs is different than "mode" in Vim
+    "Emacs is a good operating system, but it lacks a good editor"
+    Combination of keys:
+        Ctrl-x --> C-x
+        Meta-x --> M-x (Meta key: second ctrl)
+
+    C-h k    helper for key sequence
+    C-h F    helper for command
+    C-g      cancel command
+
+    C-x C-c  exit Emacs
+    C-x C-f  open file
+    
+    Move in Emacs
+    C-n      next line
+    C-p      previous line
+    C-a      begin of line
+    C-e      end of line
+    C-f      move forward for one character
+    C-b      move backward for one character
+    M-f      move forward for one word
+    M-b      move backward for one word
+    NOTE: You can also move cursor in ternimal using such keys.
+          (Maybe you need set meta-key in ternimal first)
+    C-v      page down
+    M-v      page up
+
+    Search in Emacs
+    C-s      incremental search
+
+    Undo and Redo in Emacs
+    C-x u    undo and redo, use C-g to change direction
+
+    Cut, Copy, and Paste
+    C-d      delete/cut/kill one character
+    M-d      delete/cut/kill one word
+    C-k      delete/cut/kill line
+    M-k      delete/cut/kill sentence
+    C-w      delete/cut/kill region
+    M-w      copy region
+    C-SPC    set mark to select region, like visual mode in Vim
+    C-y      paste/yank the last stretch of killed text
+    M-y      Replace just-yanked stretch of killed text with a different
+             stretch
