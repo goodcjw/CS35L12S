@@ -1,5 +1,5 @@
 CS 35L Software Construction Laboratory (Lab1-B)
-Wed, April 4, 2012
+Wed, April 4, 2012, Ver 1.3
 
 FAQ:
    More about lnxsrv
@@ -28,7 +28,7 @@ Linux file ownership:
     Files and directories are assigned a group
 
 Linux file attributes (10 bits):
-    First bit: file type
+    First bit: file typeppp
         -   normal file
 	d   directory
 	l   denotes a symbolic link

@@ -1,0 +1,99 @@
+CS 35L Software Construction Laboratory (Lab2-A)
+Mon, April 09, 2012, Ver 1.2
+
+How to search package in apt?
+    apt-cache search <package-name>
+
+Linux file attributes: r w x s
+    s: The set-user-ID-on-execution and set-group-ID-on-execution bits.
+         This causes any persons or processes that run the file to have access
+       to system resources as though they are the owner of the file
+       -rw------- 1 root  root     6 2011-10-02 23:06 secret
+       -rws--s--x 1 root  root  7362 2012-04-09 12:00 showsecret
+       Any user in mail group can access file "secret" via test program, but no
+       one rather the root can open secret directly.
+
+Copy files from remote server
+      $ scp [[user@]host1:]file1 ... [[user@]host2:]file2
+      eg: scp your_seas_username@lnxsrv.seas.ucla.edu:/usr/share/dict/words .
+
+Command Redirection
+    >: write stdout to a file (NOTE: this will overwrite an existing file)
+    >>: append stdout to a file
+    <: use contents of a file as stdin
+    NOTE: stdout: standard output, (eg) printf("hello world\n");
+          stdin:  standard input
+          http://en.wikipedia.org/wiki/Standard_streams
+
+Command Pipeline
+    command_1 | command_2 | command_3
+    NOTE: redirect the output of the first tool to the input of the following one
+          eg 1: ls | less
+          eg 2: ls -l | grep Oct
+
+Basic Regular Expression
+      A regular expression, often called a pattern, is an expression that
+    specifies a set of strings.
+    http://en.wikipedia.org/wiki/Regular_expression
+    .    Matches any single character
+    [ ]  Matches a single character that is contained within the brackets
+         eg. [abc] [a-z] [a-zA-Z] [0-9]
+    *    Matches the preceding element zero or more times
+         eg. ba* matches "b", "ba", "baa", etc
+    ?    Matches the preceding element zero or one time
+         eg. ba? matches "b" or "ba".
+    +    Matches the preceding element one or more times
+    	 eg. ba+ matches "ba", "baa", "baaa", and so on.
+
+
+More Linux Commands
+    grep: [g]local [r]egular [e]xpression [p]print
+          -- print lines matching a pattern
+          http://www.panix.com/~elflord/unix/grep.html
+          eg 1. cat file_1.txt | grep set
+                print out lines with sring "set" in file_1.txt
+          eg 2. ls -l | grep 'o'
+                print out files or directories whose name contains character o
+          eg 3. ps ax | grep chrome
+                print out processes whose name contains the string "chrome"
+          eg 4. ls -l | grep '^d'
+                print out only directories inside current directory.
+
+    sed  -- Read and modify the input line by line
+    	 http://en.wikipedia.org/wiki/Sed
+         http://www.grymoire.com/Unix/Sed.html
+         Search and replace using sed
+
+         option: -n, --quiet, --silent
+             suppress automatic printing of pattern space
+         Pick out line using line number
+             eg 1. cat sample.txt | sed -n 1p
+                   print out the same line
+             eg 2. cat sample.txt | sed -n 1~2p  
+                                      (first~step)
+                   print all the odd-numbered lines in the input stream
+         Search and replace
+             NOTE: The input could be a file or standard input (stdin)
+             eg 1. sed s/bad/good/ < sample.txt (the content of a file as stdin)
+             eg 2. sed s/bad/good/ sample.txt (the file name as a parameter)
+             eg 3. cat sample.txt | sed s/bad/good/ (using pipeline)
+             NOTE: By doing this, it only replace the first occurence
+             NOTE: Global replacement
+                   sed s/bad/good/g  -- make changes to every occurence
+             eg 4. echo goodbadugly | sed 's/\(good\)bad/\1/g'
+         NOTE: sed in Mac OS's behaviour is really different
+
+    cmp  -- Compare two files byte by byte
+         option: -s  --quiet  --silent
+                 Output nothing; yield exit status only.
+                 Exit status is 0 if inputs are the same,
+                                1 if different,
+                                2 if trouble.
+	         NOTE: exit code can be accessed via two approaches
+                       1) echo $?
+                       2) in shell script, use 'if clause'
+                          if cmp -s file1 file2; then
+                                echo 'same'
+                          else
+                                echo 'diff'
+                          fi
