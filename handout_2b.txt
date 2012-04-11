@@ -1,0 +1,94 @@
+CS 35L Software Construction Laboratory (Lab2-B)
+Wed, April 11, 2012, Ver 1.1
+
+Console, Shell, and Terminal
+    Console: pure CLI
+    Shell: a program emulate the console
+           widely used shells: sh, bash, csh, tcsh
+    Terminal: a gui based wrapper of the shell
+
+Shell Scripting
+    The first line starting with #! (shebang line or hashbang line)
+      http://en.wikipedia.org/wiki/Shebang_(Unix)
+      Tells the system which interpreter to interpret and execute the script.
+      Makes shell scripts more like real excutable programs.
+      eg. #! /bin/sh
+          #! /usr/bin/python
+    Variables
+       In command line:  export A=23
+       In scripts "export" can be omitted.
+       Refer a variable: $A
+       Variables hold string values.
+       Quotation mark's function is to link two words as one.
+       Output: "echo" or "printf"
+
+    ---- sample1.sh -----
+    # /bin/bash
+    sum=0
+    i=0
+    while (( $i <= 10 ))
+    do
+        let sum=$sum+$i
+        let i=$i+1
+        echo $sum
+    done
+    ---------------------
+
+Shell parameters
+    The program itself is known as $0
+    The first parameter to the shell is known as $1, the second as $2, etc. 
+    The collection of ALL parameters is known as $*.
+    ------------------------ sample2.sh  ------------------------
+    #! /bin/bash
+    
+    printf "the program is: %s\n" $0
+    printf "the first parameter is: %s\n" $1
+    printf "the second parameter is: %s\n" $2
+    printf "echo the collection of ALL parameters is: %s\n" "$*"
+    -------------------------------------------------------------
+
+How to execute a shell script?
+    Two options:
+    1) Make the file executable by adding "+x" attribute (chmod +x file_name)
+    2) Call the bash interpreter directly (bash file_name)
+
+More Linux Commands to learn:
+  tr   -- transliterate files with a pattern
+  sort -- sort lines of text files
+  head -- display first lines of a file
+  tail -- display the last part of a file
+  comm -- select or reject lines common to two files
+  cmp  -- compare two files byte by byte
+  ln   -- make links
+  grep -- print lines matching a pattern
+
+Running in the background
+    put an `&` at the end of the command/line of code
+    Shell doesn't wait for the command to finish if the program is running
+    in the background.
+
+More examples
+
+    -------------- sample3.sh -----------------
+    This is how you can write an if-then-else
+    control block
+    -------------------------------------------
+    #! /bin/bash
+    VALID_PASSWORD=abcd1234
+    echo "Please enter the password:"
+    read PASSWORD
+    if [ $PASSWORD == $VALID_PASSWORD ]; then
+    	echo "You have access!"
+    else
+    	echo "ACCESS DENIED!"
+    fi
+    -------------------------------------------
+
+    -------------- sample4.sh -----------------
+    This is how you can write a 'for loop'
+    -------------------------------------------
+    #! /bin/bash
+    for file in $(ls); do
+        echo $file
+    done
+    -------------------------------------------
