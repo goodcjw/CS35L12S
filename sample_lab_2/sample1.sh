@@ -5,5 +5,5 @@ while (( $i <= 10 ))
 do
     let sum=$sum+$i
     let i=$i+1
-    echo $sum
+    printf '   %s\n' $sum
 done

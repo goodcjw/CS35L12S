@@ -1,0 +1,17 @@
+CC     = gcc
+CFLAGS = -g -c
+
+all: helloworld
+
+# Commands start with TAB not spaces
+helloworld: helloworld.o printword.o
+	$(CC) $(LDFLAGS) -o hello helloworld.o printword.o
+
+printword.o: printword.c
+	$(CC) $(CFLAGS) -o printword.o printword.c
+
+helloworld.o: helloworld.c
+	$(CC) $(CFLAGS) -o helloworld.o helloworld.c
+
+clean:
+	rm -f hello helloworld.o printword.o

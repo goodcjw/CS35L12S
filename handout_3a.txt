@@ -1,0 +1,131 @@
+CS 35L Software Construction Laboratory (Lab3-A)
+Mon, April 16, 2012, Ver 1.2
+
+Tarball
+  What is a tarball? -- commonly used to refer to a file which contains other 
+                        files. Tar program itself does not compress the files.
+                        Actually, tar works with a compression program like gzip
+                        to compress the file
+  An example: 
+  ftp://ftp.gnu.org/gnu/coreutils/coreutils-7.6.tar.gz
+  .tar extension is for the actual tarball
+  .gz extension suggests that this tarball is compressed by gzip
+  .tar.gz is equivalent to .tgz
+  A quick extract command:
+  tar vxfz coreutils-7.6.tar.gz
+    v -- produce verbose output. (optional)
+    x -- extract files from an archive.
+    f -- read the archive from or write the archive to the specified file.
+    z -- compress the resulting archive with gzip.
+         in extract or list modes, this option is ignored.
+  A quick compress command:
+  tar vcfz coreutils-7.6.tar.gz coreutils-7.6
+    Note: coreutils-7.6.tar.gz is the tarball file which will be created
+          coreutils-7.6 is the directory which will be packed and compressed
+  More reading:
+  http://maketecheasier.com/install-software-from-a-tarball-in-linux/2009/06/25
+
+Basic gcc/g++
+
+  gcc is used for c and g++ is used for c++
+  
+    +-------------+  compile   +--------------+  link   +----------------+
+    | source code | ---------> | object files | ------> | target program |
+    +-------------+            +--------------+         +----------------+
+
+  -- one (.c) source file will generate one object file
+     g++ -o kernel.o -c kernel.cc
+     g++ -o gui.o -c gui.cc
+  -- link (combine) multiple object files into one target program
+     g++ -o program kernel.o gui.o
+
+configure and make
+    When you get source code from others, you can try the following set of commands
+  to "install" that program:
+    ./configure
+    make
+    sudo make install
+
+    Note: -- "configure" file is a executable script which automatically generates
+             Makefile
+          -- "Makefile" contains a set of rules which specify how to derive the 
+             target file
+          -- When you run command "make", try "make -j2". With "-j2", the make 
+             program will create two parallel threads to speed up the compilation
+
+      +--------------+                    +------+
+      | ./ configure | ---> Makefile ---> | make |
+      +--------------+                    +------+
+  
+  A sample make file:
+   +------------------------------------------------------+
+    CC     = gcc
+    CFLAGS = -g -c
+    all: helloworld
+    # Commands start with TAB not spaces
+    helloworld: helloworld.o printword.o
+    	$(CC) $(LDFLAGS) -o hello helloworld.o printword.o
+    printword.o: printword.c
+    	$(CC) $(CFLAGS) -o printword.o printword.c
+    helloworld.o: helloworld.c
+    	$(CC) $(CFLAGS) -o helloworld.o helloworld.c
+    clean:
+    	rm -f hello helloworld.o printword.o
+   +------------------------------------------------------+
+    CC          = gcc
+    LIBS        = 
+    DEFS        = -DDEBUG
+    CFLAGS	= -c -Wall -DDEBUG -g
+    SOURCES	= printword.c helloworld.c
+    OBJECTS	= $(SOURCES:.c=.o)
+    TARGET	= hello
+    all: $(SOURCES) $(TARGET)
+    .cc.o:
+    	$(CC) $(CFLAGS) $(DEFS) $< -o $@
+    $(TARGET): $(OBJECTS)
+    	$(CC) $(OBJECTS) $(LIBS) -o $@
+    clean:
+    	rm $(OBJECTS)
+	rm $(TARGET)
+   +------------------------------------------------------+
+  Notes:
+    Special macro: $<   dependant file
+                   $@   target file
+  More reading:
+  -- Make (wiki page)
+    http://en.wikipedia.org/wiki/Make_(software)
+  -- a tutorial of using autoconf and automake with C++:
+    http://www.openismus.com/documents/linux/automake/automake.shtml
+
+How to use a Makefile
+  1. name it as default (Makefile) and run command "make" in the same directory.
+  2. "make -f OtherMakefile"
+
+It is too complicated to write Makefile by ourselves
+  Different system need different system
+  autoconf -- generate the "configure" script
+  automake -- generate Makefile
+  -- a tutorial of using autoconf and automake with C++:
+    http://www.openismus.com/documents/linux/automake/automake.shtml
+
+Install program without sudo
+  1. Generate a Makefile that will install the program into another directory
+     ./configure --prefix=/tmp/cu
+  2. Build the source code again (run "make")
+  3. Run "make install" without sudo (you don't need it now)
+
+$PATH environment variable
+    Check you $PATH value:
+      jwcai@eagles:/$ echo $PATH
+      /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+    When you type a command into the shell, the system will search it in 
+  directories listed in the $PATH.
+    Modify the $PATH
+    Option 1. export PATH=/tmp/cu/bin:$PATH
+    Option 2. modify ~/.bashrc and append the export command.
+  Check with "which" command
+
+Review: New commands that you need to know:
+  1. tar 2. gcc 3. g++ 4. make
+
+Preview Python: http://docs.python.org/release/2.4.1/tut/tut.html
