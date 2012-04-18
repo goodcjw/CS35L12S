@@ -10,7 +10,7 @@ TARGET	= hello
 
 all: $(SOURCES) $(TARGET)
 
-.cc.o:
+.c.o:
 	$(CC) $(CFLAGS) $(DEFS) $< -o $@
 
 $(TARGET): $(OBJECTS)

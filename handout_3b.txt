@@ -1,0 +1,93 @@
+CS 35L Software Construction Laboratory (Lab3-B)
+Wed, April 18, 2012, Ver 1.2
+
+Python Reading: 
+    http://docs.python.org/release/2.4.1/tut/tut.html
+    Ch1 ~ Ch7: must read, read the rest if you want more powerful tools
+    http://learnpythonthehardway.org
+    Lots of small exercises, very helpful
+
+Python in Interactive mode
+  Simply type "python" in the command line
+  -- It is a good calculator
+       e.g. >>> import math
+            >>> math.sqrt ((3 + 4.5) ** 2)
+            7.5 
+  -- It is a good helper for pyhton
+       e.g. >>> help(open)
+
+Revisit: Run a (Python) script
+  Option 1: python myscript.py
+  Option 2: #! line and chomd +x
+
+Indent is important in Python
+  something is wrong with the following code
+  ----------------------------------------
+  def test():
+      x = 0
+    for i in range(0, 10):
+      x += i
+       print x
+    test()
+  ----------------------------------------
+
+Python variables
+  Strong typed
+  Dynamically, implicitly typed
+  ----------------------------------------
+  >>> a = '1'
+  >>> type(a)
+  <type 'str'>
+  >>> 2 + a
+  type error!
+  ----------------------------------------
+  >>> a = 1
+  >>> type(a)
+  <type 'int'>
+  ----------------------------------------
+  Every variable is an instace of object.
+  >>> a = dict   #type object
+  >>> a = dict() #a new instance of dict()
+  >>> a = len    #function objec
+  ----------------------------------------
+
+Build-in Data Structure in Python
+  -- Basic type: int, float, string
+  -- Tuple: immutable, (generally) sequences of different kinds of stuff
+  -- List: mutable, (generally) sequences of the same kind of stuff
+     Ref: http://news.e-scribe.com/397
+  -- String: 'string', "string", """string"""
+       Acutally, there is no character type in Python
+       >>> type('a')
+       <type 'str'>
+  -- Access tuple, list and string using subscriptions
+     a[1], a[1:], c[2:4], a[-1], a[:-1]
+  -- Dict: key, value pairs
+     e.g. d = {}
+          d["tom"] = 20
+          d["jerry"] = 19
+     d.values(), d.keys(), d.items()
+
+The main function in Python
+  ----------------------------------------
+  #! /usr/bin/env python
+
+  def main():
+    print 'hello world'
+
+  if __name__ == "__main__":
+    main()
+  ----------------------------------------
+
+    This line indicates the entry point of the program. If we don't specify
+  this line, it will execute from the first "module-level" statement.
+
+  Best practice:
+    Always enclose your code in a function, use a main function if you want
+ to execute from the script directly.
+
+  -- Arguments --
+    The command line arguments can be accessed
+  using sys.argv. sys.argv is a list, the arguments
+  will be listed in their original order starting
+  from sys.argv[1] (sys.argv[0] is the script name).

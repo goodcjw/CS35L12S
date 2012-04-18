@@ -110,7 +110,7 @@ It is too complicated to write Makefile by ourselves
 
 Install program without sudo
   1. Generate a Makefile that will install the program into another directory
-     ./configure --prefix=/tmp/cu
+     ./configure --prefix=/home/jwcai/bin
   2. Build the source code again (run "make")
   3. Run "make install" without sudo (you don't need it now)
 
@@ -121,7 +121,7 @@ $PATH environment variable
     When you type a command into the shell, the system will search it in 
   directories listed in the $PATH.
     Modify the $PATH
-    Option 1. export PATH=/tmp/cu/bin:$PATH
+    Option 1. export PATH=/home/jwcai/bin:$PATH
     Option 2. modify ~/.bashrc and append the export command.
   Check with "which" command
 

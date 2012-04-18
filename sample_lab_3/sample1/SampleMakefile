@@ -1,10 +1,11 @@
-CC     = gcc
-CFLAGS = -g -c
+CC      = gcc
+CFLAGS  = -g -c
+LDFLAGS =
 
-all: helloworld
+all: hello
 
 # Commands start with TAB not spaces
-helloworld: helloworld.o printword.o
+hello: helloworld.o printword.o
 	$(CC) $(LDFLAGS) -o hello helloworld.o printword.o
 
 printword.o: printword.c

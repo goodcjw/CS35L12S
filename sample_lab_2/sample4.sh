@@ -1,4 +1,5 @@
 #! /bin/bash
-for file in $(ls); do
+IFS=$'\n'
+for file in $(ls -1a); do
     echo $file
 done
