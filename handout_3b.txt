@@ -52,7 +52,7 @@ Python variables
   ----------------------------------------
 
 Build-in Data Structure in Python
-  -- Basic type: int, float, string
+  -- Basic type: int, float
   -- Tuple: immutable, (generally) sequences of different kinds of stuff
   -- List: mutable, (generally) sequences of the same kind of stuff
      Ref: http://news.e-scribe.com/397
