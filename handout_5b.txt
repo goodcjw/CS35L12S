@@ -1,0 +1,88 @@
+CS 35L Software Construction Laboratory (Lab5-B)
+Wed, Feb 8, 2012, Ver 1.0
+
+#include <stdio.h>
+  "IO Operation"
+  http://www.cplusplus.com/reference/clibrary/
+  
+    In C, there is no I/O stream objects like istream or ostream class in
+  <iostream>. We use the I/O functions provided in <stdio.h> to handle the
+  inputs and outputs.
+
+  -- FILE pointer --
+ 
+    FILE * is a pointer to a file, <stdio.h> provides three global pointers: 
+  stdout, stderr, stdin. Recall that in Unix, input output streams is actually
+  a file.
+    We can open/close regular files with the following functions:
+
+  FILE *fopen(const char *filename, const char *mode);
+  int fclose(FILE *stream);
+
+  We can read/write bytes from file using:
+  size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+  size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+  In most situations, we write characters (string) to a
+  file, the following is the most frequently used I/O 
+  functions handling characters / strings.
+
+  -- Write output to files (streams) --
+  
+  int printf(const char *format, ...);
+  int putchar(int char);
+  int fprintf(FILE *stream, const char *format, ...);
+  int fputs(const char *str, FILE *stream);
+  int fputc(int char, FILE *stream);
+
+  -- Read input from files (streams) --
+  int scanf(const char *format, ...);
+  int getchar(void);
+  int fscanf(FILE *stream, const char *format, ...);
+  char *fgets(char *str, int n, FILE *stream);
+  int fgetc(FILE *stream);
+
+  Review for pipeline and redirection
+    -- redirect output:  echo '12345' > test
+    -- redirect input:   cat < test
+    -- pipeline:         echo '12345' | cat
+
+#include <string.h>
+  String Operation
+  http://www.cplusplus.com/reference/clibrary/cstring/
+  -- strlen   get string length
+     size_t strlen ( const char * str );
+  -- strcmp   compare two strings
+     int strcmp ( const char * str1, const char * str2 );
+     return 0: both strings are equal
+  -- memcpy   copy block of memory
+     void * memcpy ( void * destination, const void * source, size_t num );
+  -- strcpy   copy string
+     char * strcpy ( char * destination, const char * source );
+
+#include <stdlib.h>
+  Memory Allocation, Sorting Operation
+  http://www.cplusplus.com/reference/clibrary/cstdlib/
+  -- malloc   allocate memory block (run time)
+     void * malloc ( size_t size );    // size in bytes
+              e.g. char* mem = malloc(memsize);
+  -- free     deallocate space in memory
+     void free ( void * ptr );
+     Example:
+     --------------------------------------------------
+     int i;
+     int *arr = malloc(20 * sizeof(int));
+     for (i = 0; i < 20; i++)
+         arr[i] = i;
+     free(arr);
+     --------------------------------------------------
+     Always free after malloc!!
+
+  -- atoi     convert string to integer
+     int atoi ( const char * str );
+  -- qsort    sort elements of array
+     void qsort ( void * base, size_t num, size_t size, 
+                  int ( * comparator ) ( const void *, const void * ) );
+     -- Function pointer
+        int ( * comparator ) ( const void *, const void * )
+        int compare (const void *a, const void *b)

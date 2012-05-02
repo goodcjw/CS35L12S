@@ -1,0 +1,152 @@
+CS 35L Software Construction Laboratory (Lab5-A)
+Mon, April 30, 2012, Ver 1.1
+
+This Week's Topic: C Programming and Debugging
+
+Part I: C Language (Discuss in detail on Wednesday)
+  Father of C and Unix:  Dennis Ritchie and Ken Thompson
+  Invented in 1970's, still the second popular programming language
+
+  More reading:
+  http://en.wikipedia.org/wiki/Dennis_Ritchie
+  http://en.wikipedia.org/wiki/Ken_Thompson
+  http://www.cplusplus.com/
+
+Top 5 Programming Language in Feburary, 2012
+  Rank 2012  Rank 2011    Language    Rate       Delta
+  1          1            Java        17.050%    -1.43%
+  2          2            C           16.523%    +1.54%
+  3          6            C#          8.653%     +1.84%
+  4          3            C++         7.853%     -0.33%
+  5          8            Objective-C 7.062%     +4.49%        
+Top 5 Programming Language in April, 2012
+  1          2            C           17.555%    +1.39%
+  2          1            Java        17.026%    -2.02%
+  3          3            C++         8.896%     -0.33%
+  4          8            Objective-C 8.236%     +3.85%
+  5          4            C#          7.348%     +0.16%
+  More reading:
+  http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html
+
+C Language Review
+  Include head files:
+  C libs:        #include <xxx.h>
+  Std C++ libs:  #include <xxx>
+  e.g. "#include <cstring>" vs "#include <string.h>" vs "#include <string>"
+
+Part II: Debugging with GDB
+
+Preparing your source code for debugging
+  -- Add g command line argument when compile the source code using gcc/g++
+  -- With a -g option, the output file will be larger and runs slower
+  e.g. gcc -g qsort.c -o qsort
+
+When to use a debugger
+  -- To figure out how a program is executed
+  -- Reproduce some bugs
+  -- Print program stack after crash
+
+Loading a program
+  -- Simplest situation: gdb name_of_executable
+     e.g. gdb ls
+  -- When the executable needs some parameters
+     e.g. gdb ls --args -lt
+  -- In emacs: M-x gdb (require very reliable source code)
+
+GDB command line
+  (gdb) break
+    -- shortened as 'b'
+    -- set breakpoint on file and line number
+       b qsort.c:5
+    -- set breakpoint on function
+       b qsort
+
+  (gdb) disable #BP
+  (gdb) enable #BP
+    -- Toggle Breakpoints
+       Temporarily deactivate a breakpoint / reactivate a disabled breakpoint
+
+  (gdb) info breakpoints
+    -- display all breakpoints
+
+  (gdb) delete #BP
+  (gdb) delete breakpoints
+    -- Remove Breakpoints
+       Delete a specific breakpoint / delete all breakpoints
+
+  (gdb) list
+    -- shortened as 'l'
+    -- print out the lines of code around the line the program is stopped at
+
+  e.g.
+  (gdb) info breakpoints
+  Num Type           Disp Enb Address            What
+  1   breakpoint     keep y   0x0000000100000cde in main at qsort.c:6
+          breakpoint already hit 1 time
+  3   breakpoint     keep y   0x0000000100000db2 in qsort at qsort.c:19
+          breakpoint already hit 3 times
+  (gdb) disable 1       -- Note: disable a breakpoint
+  (gdb) delete 3        -- Note: detelte a breakpoint
+
+  (gdb) run
+    -- shortened as 'r', start a program
+  (gdb) next
+    -- shortened as 'n', move on to the next statement
+  (gdb) step
+    -- shortened as 's', short for 'step', step into one function call
+  (gdb) next #N
+    -- shortened as 'n #N, make N movements
+  (gdb) step #N
+    -- shortened as 's #N', continue N steps
+  (gdb) continue
+    -- shortened as 'c', execute until next breakpoint
+  (gdb) <RET>
+    -- i.e. hit enter button (repeat next, step, or continue)
+
+  (gdb) print var -- print the value of a variable (one time)
+  e.g.
+  (gdb) print pivot
+  $4 = 105 'i'
+
+  print data with given format
+  (gdb) print [/format] <expression>
+    -d: decimal int
+    -u: decimal unsigned
+    -x: hexadecimal
+    -o: octal
+    -t: binary
+    -c: character
+
+  disp var  -- display the value of a variable
+               (every time the variable is in current scope)
+  watch var -- a smart break point
+               break the execution one the variable chagnes
+  e.g.
+  (gdb) watch e
+  Hardware watchpoint 5: e
+  (gdb) c
+  Hardware watchpoint 5: e
+  Old value = 3
+  New value = 7
+  qsort (str=0x7fff5fbff890 "adfhisst", l=6, r=7) at qsort.c:21
+  1: s = 6
+
+  (gdb) backtrace 
+  -- display a listing of function calls from the beginning of execution
+  -- extremely useful for after-crash debugging
+  e.g.
+  (gdb) backtrace
+  #0  qsort (str=0x7fff5fbff890 "acelr", l=3, r=4) at qsort.c:24
+  #1  0x100000ec0 in qsort (str=0x7fff5fbff890 "acelr", l=0, r=4) at qsort.c:42
+  #2  0x100000d52 in main () at qsort.c:12
+
+A quick demo for next lecture
+  http://irl.cs.ucla.edu/~jwcai/qsort.c
+
+More reading for gdb
+  http://www.unknownroad.com/rtfm/gdbtut/gdbtoc.html
+
+Some hints for Lab 5
+  What's wrong with 'ls -lt'?
+  What's the running process of ls? Which part is wrong?
+  Why it is a "very old" file gets wrong?
