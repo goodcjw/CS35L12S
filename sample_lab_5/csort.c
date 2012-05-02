@@ -2,12 +2,13 @@
 #include <stdio.h>
 
 /**
-     void qsort ( void * base, size_t num, size_t size, 
-                  int ( * comparator ) ( const void *, const void * ) );
-     -- Function pointer
-        int ( * comparator ) ( const void *, const void * )
-     int compare (const void *a, const void *b)
-*/
+ * void qsort ( void * base, size_t num, size_t size, 
+ *              int ( * comparator ) ( const void *, const void * ) );
+ *   -- Function pointer
+ *      int ( * comparator ) ( const void *, const void * )
+ *   int compare (const void *a, const void *b)
+ */
+
 int int_compare(const void *a, const void *b) {
   int* ia = (int*) a;
   int* ib = (int*) b;
