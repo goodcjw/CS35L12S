@@ -1,5 +1,3 @@
-CS 35L Software Construction Laboratory (Lab5-B)
-Wed, Feb 8, 2012, Ver 1.0
 
 #include <stdio.h>
   "IO Operation"
@@ -71,7 +69,7 @@ Wed, Feb 8, 2012, Ver 1.0
      Example:
      --------------------------------------------------
      int i;
-     int *arr = malloc(20 * sizeof(int));
+     int *arr = (int*) malloc(20 * sizeof(int));
      for (i = 0; i < 20; i++)
          arr[i] = i;
      free(arr);
