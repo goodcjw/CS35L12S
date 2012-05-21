@@ -1,0 +1,176 @@
+CS 35L Software Construction Laboratory (Lab8)
+Mon, May 21, 2012, Ver 1.2
+
+Process Revisited
+
+  Process: Program + Data:
+  Memory of a precess can be devided into three regions:
+  1) Text: programs and read-only data
+           (loaded from text section of a executable file)
+  2) Data: stores static variables
+           (loaded from bss section of a executable file)
+  3) Stack: stores dynamic varialbles, function frames
+
+Function Call
+  +-----------------------------+
+   void main() {
+     function(1, 2, 3);
+   }
+  +-----------------------------+
+  pushl $3         # push arguments from right to left
+  pushl $2         # when they are poped out the order is left to right
+  pushl $1
+  call function    # jump to the address of the callee function
+                   # call will push the current IP register (instruction pointer)
+                   # into the stack.
+                   # This is the RET address for the callee function
+  pushl %ebp       # EBP: the base pointer of the current function's stack
+                   #      i.e. the start boundary of the current function
+  movl %esp,%ebp   # ESP: the stack pointer of the current function's stack
+  subl $20,%esp    #      i.e. the cutting edge of the current function
+
+Buffer: a contiguous block of computer memory that holds multiple instances
+  of the same data type.
+    -- static buffer: allocated at load time on the data segment.
+    -- dynamic: allocated at run time on the stack.
+
+Buffer Overflow
+  the result of stuffing more data into a buffer than it can handle.
+  sample code:
+  +-----------------------------+
+   void function(char *str) {
+     char buffer[16];
+
+     strcpy(buffer,str);
+   }
+
+   void main() {
+     char large_string[256];
+     int i;
+
+     for( i = 0; i < 255; i++)
+       large_string[i] = 'A';
+
+     function(large_string);
+   }
+  +-----------------------------+
+  bottom of                                                          top of
+  memory                                                             memory
+                 buffer            sfp   ret   *str
+  <------       [                ][    ][    ][    ]
+
+  top of                                                          bottom of
+  stack                                                               stack
+
+  IMPORTANT: buffer overflow allows us to change the return address of a function
+  More Reading:
+  http://insecure.org/stf/smashstack.html
+
+Another Example on Buffer Overflow
+
+   +---------------------------------------------+
+    void function(int a, int b, int c) {
+      char buffer1[5];
+      char buffer2[10];
+      int *ret;
+
+      ret = buffer1 + 12;
+      (*ret) += 8;
+    }
+
+    void main() {
+      int x;
+
+      x = 0;
+      function(1,2,3);
+      x = 1;
+      printf("%d\n",x);
+    }
+  +---------------------------------------------+
+
+bottom of                                                          top of
+memory                                                             memory
+           buffer2       buffer1   sfp   ret   a     b     c
+<------   [            ][        ][    ][    ][    ][    ][    ]
+
+top of                                                          bottom of
+stack                                                               stack
+
+  Note: memory can only be addressed in multiples of the word size.
+        A word in this example is 4 bytes, or 32 bits.
+
+Makefile and GCC Revisited
+
+    In Lab 7, you are required to use GCC with several options, like "-S",
+  "-fno-stack-protector". You are not going to run gcc command directly.
+    Instead, you can achieve this by modifying the Makefile, especially the 
+  "$CFLAGS" variable.
+
+   +---------------------------------------------+
+    CC     = gcc
+    CFLAGS = -g -fno-stack-protector
+ 
+    all: helloworld
+ 
+    helloworld: helloworld.o
+            # Commands start with TAB not spaces
+            $(CC) $(LDFLAGS) -o $@ $^
+ 
+    helloworld.o: helloworld.c
+            $(CC) $(CFLAGS) -c -o $@ $<
+ 
+    clean:
+            rm -f helloworld helloworld.o
+   +---------------------------------------------+
+
+  "-S" option of gcc
+    Stop after the stage of compilation proper; do not assemble.
+    The output is in the form of an assembler code file for each non-assembler
+  input file specified.
+
+GDB Revisited
+  -- Attach GDB to a process which is running:
+     $ gdb
+     $ attach PID
+
+Setup Environment for mudflap
+  (Thanks to Jihyoung "Joseph" Kim for sharing his notes on mudflap)
+
+  for Ubuntu
+  $ sudo apt-get install gcc-opt
+  $ sudo apt-get install libgcc1
+  $ sudo apt-get install libgcc1-dbg
+  $ sudo apt-get install libmudflap0
+  $ sudo apt-get install libmudflap0-dbg
+  $ sudo apt-get install libmudflap0-4.5-dev
+
+  on SEAS lab lnxsrv
+  $ bash
+  $ export PATH='/usr/local_cs/linux/bin'
+  $ export LD_LIBRARY_PATH=/usr/local_cs/linux/lib
+
+Getting start with Lab 8
+
+  1. Grab the tarball, untar it
+  2. Apply the patch given from the course website
+  3. Run "./configure", "make" and "make install"
+     -- "make install" is optional, if you wanna install it, you may face some
+        problem related to unexisted user and group.
+  4. Fix other bugs if necessary
+  5. If you simply run "./thttpd" it will not work.
+  6. Read MANPAGE of thttpd carefully. Especially, pay attention to these options:
+     -C, specifies a config-file for thttpd
+     -p, set port
+     -d, set root directory
+  7. If you are still confused, you may find the following link helpful:
+     http://www.acme.com/software/thttpd/notes.html
+     You do not need to go through everything in that note page, but i helps to
+   have a feeling about how an http server should be configured.
+
+  available port for section 3: 12301-12330
+
+More about Lab 8
+  -- Make sure your thttpd is working:
+     1) Try visit http://localhost:80   Note: the port may not be 80
+     2) Find help with commands: "ps" and "grep"
+
