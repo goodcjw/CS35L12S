@@ -9,11 +9,13 @@ void evil() {
   (*ret) += 8;
 }
 
-void main() {
+int main() {
   int x;
 
   x = 0;
   evil();
   x = 1;
   printf("%d\n", x);
+
+  return 0;
 }

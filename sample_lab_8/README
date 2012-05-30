@@ -1,3 +1,4 @@
 To play with buffer overflow, compile the source code with -fno-stack-prtector
 
 $ gcc -fno-stack-protector bof.c -o bof 
+$ gcc -g -fno-stack-protector -fmudflap bof.c -lmudflap -o bof

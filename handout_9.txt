@@ -1,0 +1,105 @@
+CS 35L Software Construction Laboratory (Lab9-A)
+Wed, May 23, 2012, Ver 1.1
+
+Thread (aka Light Weight Process)
+  A thread is defined as an independent stream of instructions that can be
+scheduled to run as such by the operating system.
+
+Thread vs Process
+Process:
+  -- an instance of a program in execution
+  -- independent entity, system resources (CPU time, memory, etc.) are allocated
+  -- separate address space. one process cannot access the variables and data
+     structures of another process
+  -- no processes can directly access the memory of another process
+  -- must use IPC (inter-process communication, including: pipes, files, sockets,
+     memory share) to communicate with other processes
+Thread:
+  -- a thread is a particular execution path of a process
+  -- one process can have multiple threads
+  -- threads in one process use the same memory address space
+  -- each thread has its own registers and its own stack, but other threads can
+     read and write the stack memory
+  -- overall, the overhead brought from thread switch is lower than precess switch
+More reading:
+  http://en.wikipedia.org/wiki/Thread_(computer_science)
+
+Thread's overhead
+ 1) switching: store and load registers
+ 2) synchronization
+
+Synchronization
+  -- a problem
+   +-------------------------------------------------------------------------+
+   | static cnt = 0;                                                         |
+   | static a = 0;                                                           |
+   +------------------------------------+------------------------------------+
+   |             Thread A               |             Thread B               |
+   +------------------------------------+------------------------------------+
+   | void counter() {                   | void accumulate() {                |
+   |   cnt++;                           |   a += cnt;                        |
+   | }                                  |   cnt = 0;                         |
+   |                                    | }                                  |
+   +------------------------------------+------------------------------------+
+  -- solution: mutex (mutual exclusive)
+
+POSIX Threads (aka libpthread, -lpthread)
+  -- API defined by POSIX standard
+  -- pthread API can be informally grouped into four major groups:
+     1) Thread Management     2) Mutexes
+     3) Condition variables   4) Synchronization
+
+    // creates a new thread and makes it executable
+    int pthread_create(pthread_t * thread, 
+                       const pthread_attr_t * attr,
+                       void * (*start_routine)(void *), 
+                       void *arg);
+    // wait for termination of another thread
+    int pthread_join(pthread_t th, void **thread_return);
+
+More reading:
+  http://en.wikipedia.org/wiki/POSIX_Threads
+  http://www.yolinux.com/TUTORIALS/LinuxTutorialPosixThreads.html
+
+  +---------------------------------------------------------------------------+
+    #include <pthread.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    #define NUM_THREADS     4
+
+    void* basic_task(void* arg) {
+      int tid;
+      tid = *((int *) arg);
+      printf("hello world! this is thread %d!\n", tid);
+      return NULL;
+    }
+
+    int main(void) {
+      pthread_t threads[NUM_THREADS];
+      int thread_args[NUM_THREADS];
+      int rc, i;
+
+      /* create all threads */
+      for (i = 0; i < NUM_THREADS; ++i) {
+        thread_args[i] = i;
+        printf("in main: creating thread %d\n", i);
+        rc = pthread_create(&threads[i], NULL, 
+                            basic_task, (void*) &thread_args[i]);
+        if (rc != 0) {
+          printf("fail to create thread, abort...\n");
+          exit(1);
+        }
+      }
+
+     /* wait for all threads to complete */
+     for (i = 0; i < NUM_THREADS; ++i) {
+       rc = pthread_join(threads[i], NULL);
+       if (rc != 0) {
+         printf("fail to join thread, abort...\n");
+         exit(1);
+       }
+     }
+     return 0;
+   }
+  +---------------------------------------------------------------------------+
